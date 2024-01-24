@@ -78,3 +78,4 @@ SELECT 'ADDED USER admin_007' AS 'INSTALLATION COMPLETED';
 FLUSH PRIVILEGES;
 
 -- =====================================================
+-- 
