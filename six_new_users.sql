@@ -6,7 +6,7 @@ add the users to your script one at a time and verify login
 */
 
 
--- @admin_001b
+-- @admin_001
 -- ==========================================
 SELECT 'DROPPING USER admin_001' AS 'INSTALLATION PROGRESSING';
 
@@ -32,11 +32,6 @@ WITH
 
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
-
--- FLUSH PRIVILEGES;
-
--- SELECT user, show_db_priv, account_locked
--- FROM mysql.user;
 
 -- @admin_002
 -- =============================================
@@ -67,11 +62,6 @@ REVOKE ALL, GRANT OPTION FROM 'admin_002'@'%';
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
--- FLUSH PRIVILEGES;
-
--- SELECT user, show_db_priv, account_locked
--- FROM mysql.user;
-
 -- @admin_003
 -- =============================================
 SELECT 'DROPPING USER admin_003' AS 'INSTALLATION PROGRESSING';
@@ -100,11 +90,6 @@ REVOKE ALL, GRANT OPTION FROM 'admin_003'@'%';
 
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
-
--- FLUSH PRIVILEGES;
-
--- SELECT user, show_db_priv, account_locked
--- FROM mysql.user;
 
 -- @admin_004
 -- =======================================================
@@ -135,11 +120,6 @@ REVOKE ALL, GRANT OPTION FROM 'admin_004'@'%';
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
--- FLUSH PRIVILEGES;
-
--- SELECT user, show_db_priv, account_locked
--- FROM mysql.user;
-
 -- @admin_005
 -- ====================================================
 SELECT 'DROPPING USER admin_005' AS 'INSTALLATION PROGRESSING';
@@ -152,7 +132,7 @@ SELECT
 CREATE USER IF NOT EXISTS 'admin_005' @'%' IDENTIFIED BY 'guttmanGrizzlies_2024'
 WITH 
 -- SET RESOURCE LIMITS
-    MAX_QUERIES_PER_HOUR 10000
+    MAX_QUERIES_PER_HOUR 20
     MAX_UPDATES_PER_HOUR 10
     MAX_CONNECTIONS_PER_HOUR 5
     MAX_USER_CONNECTIONS 2
@@ -168,11 +148,6 @@ REVOKE ALL, GRANT OPTION FROM 'admin_005'@'%';
 
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
-
--- FLUSH PRIVILEGES;
-
--- SELECT user, show_db_priv, account_locked
--- FROM mysql.user;
 
 -- @admin_006
 -- ================================================
@@ -203,19 +178,9 @@ REVOKE ALL, GRANT OPTION FROM 'admin_006'@'%';
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
--- FLUSH PRIVILEGES;
-
--- SELECT user, show_db_priv, account_locked
--- FROM mysql.user;
-
 
 -- =======================================
 
--- DROP ROLES
--- DROP ROLE
--- IF EXISTS 'read_only_classicmodels_db'@'%';
-
--- CHECK TO SEE GONE
 SELECT 'ADDING ROLES' AS 'INSTALLATION PROGRESSING';
 
 -- CREATE ROLE
@@ -230,32 +195,41 @@ FROM mysql.user;
 
 -- ========================================================
 -- GRANT PRIVS
+
+-- i.	Grant select on classicmodels.* to  read_only_classicmodels_db
 GRANT SELECT ON classicmodels.*
 TO 'read_only_classicmodels_db'@'%';
 
+-- ii.	Grant select on employees.* to read_only_employees_db
+GRANT SELECT 
+ON employees.*
+TO 'read_only_employees_db'@'%';
+
+-- iii.	Grant create, drop on employees.* to  admin_user
 GRANT CREATE, DROP
 ON employees.*
 TO 'admin_user'@'%';
 
+-- iv.	Grant create, drop on classicmodels.* to admin_user
 GRANT CREATE, DROP
 ON classicmodels.*
 TO 'admin_user'@'%';
 
+-- v.	Grant show databases on *.* to admin_user
 GRANT SHOW DATABASES
 ON *.*
 TO 'admin_user'@'%';
 
-GRANT CREATE, DROP, REFERENCES
-ON *.*
-TO 'admin_user'@'%';
-
+-- vi.	Grant insert, update on employees.employees to app_user
 GRANT INSERT, UPDATE
 ON employees.employees
 TO 'app_user'@'%';
 
-GRANT SELECT 
-ON employees.*
-TO 'read_only_employees_db'@'%';
+-- Assign4 : give create, drop, ref privs to admin_user role
+-- (FOR ADMIN_005)
+GRANT CREATE, DROP, REFERENCES
+ON *.*
+TO 'admin_user'@'%';
 
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
