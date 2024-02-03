@@ -8,6 +8,8 @@ add the users to your script one at a time and verify login
 
 -- @admin_001b
 -- ==========================================
+SELECT 'DROPPING USER admin_001' AS 'INSTALLATION PROGRESSING';
+
 DROP USER IF EXISTS 'admin_001'@'%';
 
 SELECT
@@ -28,18 +30,18 @@ WITH
     PASSWORD HISTORY 5
     PASSWORD REUSE INTERVAL 365 DAY;
 
-REVOKE ALL, GRANT OPTION FROM 'admin_001'@'%';
-
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
-FLUSH PRIVILEGES;
+-- FLUSH PRIVILEGES;
 
-SELECT user, show_db_priv, account_locked
-FROM mysql.user;
+-- SELECT user, show_db_priv, account_locked
+-- FROM mysql.user;
 
 -- @admin_002
 -- =============================================
+SELECT 'DROPPING USER admin_002' AS 'INSTALLATION PROGRESSING';
+
 DROP USER IF EXISTS 'admin_002'@'%';
 
 SELECT
@@ -65,13 +67,15 @@ REVOKE ALL, GRANT OPTION FROM 'admin_002'@'%';
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
-FLUSH PRIVILEGES;
+-- FLUSH PRIVILEGES;
 
-SELECT user, show_db_priv, account_locked
-FROM mysql.user;
+-- SELECT user, show_db_priv, account_locked
+-- FROM mysql.user;
 
 -- @admin_003
 -- =============================================
+SELECT 'DROPPING USER admin_003' AS 'INSTALLATION PROGRESSING';
+
 DROP USER IF EXISTS 'admin_003'@'%';
 
 SELECT
@@ -97,13 +101,15 @@ REVOKE ALL, GRANT OPTION FROM 'admin_003'@'%';
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
-FLUSH PRIVILEGES;
+-- FLUSH PRIVILEGES;
 
-SELECT user, show_db_priv, account_locked
-FROM mysql.user;
+-- SELECT user, show_db_priv, account_locked
+-- FROM mysql.user;
 
 -- @admin_004
 -- =======================================================
+SELECT 'DROPPING USER admin_004' AS 'INSTALLATION PROGRESSING';
+
 DROP USER IF EXISTS 'admin_004'@'%';
 
 SELECT
@@ -129,13 +135,15 @@ REVOKE ALL, GRANT OPTION FROM 'admin_004'@'%';
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
-FLUSH PRIVILEGES;
+-- FLUSH PRIVILEGES;
 
-SELECT user, show_db_priv, account_locked
-FROM mysql.user;
+-- SELECT user, show_db_priv, account_locked
+-- FROM mysql.user;
 
 -- @admin_005
 -- ====================================================
+SELECT 'DROPPING USER admin_005' AS 'INSTALLATION PROGRESSING';
+
 DROP USER IF EXISTS 'admin_005'@'%';
 
 SELECT
@@ -161,13 +169,15 @@ REVOKE ALL, GRANT OPTION FROM 'admin_005'@'%';
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
-FLUSH PRIVILEGES;
+-- FLUSH PRIVILEGES;
 
-SELECT user, show_db_priv, account_locked
-FROM mysql.user;
+-- SELECT user, show_db_priv, account_locked
+-- FROM mysql.user;
 
 -- @admin_006
 -- ================================================
+SELECT 'DROPPING USER admin_006' AS 'INSTALLATION PROGRESSING';
+
 DROP USER IF EXISTS 'admin_006'@'%';
 
 SELECT
@@ -193,27 +203,27 @@ REVOKE ALL, GRANT OPTION FROM 'admin_006'@'%';
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
 
-FLUSH PRIVILEGES;
+-- FLUSH PRIVILEGES;
 
-SELECT user, show_db_priv, account_locked
-FROM mysql.user;
+-- SELECT user, show_db_priv, account_locked
+-- FROM mysql.user;
 
 
 -- =======================================
 
 -- DROP ROLES
-DROP ROLE
-IF EXISTS 'read_only_classicmodels_db'@'%';
+-- DROP ROLE
+-- IF EXISTS 'read_only_classicmodels_db'@'%';
 
 -- CHECK TO SEE GONE
-SELECT user, show_db_priv, account_locked
-FROM mysql.user;
+SELECT 'ADDING ROLES' AS 'INSTALLATION PROGRESSING';
 
 -- CREATE ROLE
-CREATE ROLE
-IF NOT EXISTS
-    'read_only_classicmodels_db','admin_user',
-    'read_only_employees_db','app_user';
+CREATE ROLE IF NOT EXISTS
+'read_only_classicmodels_db',
+'admin_user',
+'read_only_employees_db',
+'app_user';
 
 SELECT user, show_db_priv, account_locked
 FROM mysql.user;
@@ -243,7 +253,12 @@ GRANT SELECT
 ON employees.*
 TO 'read_only_employees_db'@'%';
 
+SELECT user, show_db_priv, account_locked
+FROM mysql.user;
+
 -- ASSIGN ROLES
+SELECT 'CREATING ROLES' AS 'INSTALLATION PROGRESSING';
+
 GRANT 'admin_007' TO 'admin_006';
 
 GRANT 'read_only_classicmodels_db' TO 'admin_001', 'admin_003';
