@@ -1,3 +1,4 @@
+-- 
 SELECT productid, productname, productprice, categoryid FROM product;
 
 SELECT productname, productid, vendorid, categoryid, productprice FROM product;
