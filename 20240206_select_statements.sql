@@ -21,6 +21,6 @@ SELECT productid, productname, categoryid, productprice FROM product WHERE produ
 SELECT productid, productname, categoryid, productprice FROM product WHERE productid IN ("2X2","3X3","4X4") ORDER BY productprice DESC;
 
 SELECT productid, productname, categoryid, productprice FROM product 
-ORDER BY categoryid;
+ORDER BY categoryid, productprice;
 
 SELECT * FROM product WHERE productid IN ("2X2","4X4");
